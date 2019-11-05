@@ -8,7 +8,7 @@
 		"declaration": true,
 		"declarationDir": "types",
 		"emitDeclarationOnly": true,
-		"lib": ["es5", "es6", "dom"],
+		"lib": ["es5", "es6", "dom"]
 		// "typeRoots": [ "./node_modules/@types", "./src/typings" ]
 	},
 	"target": "ESNext",

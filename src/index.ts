@@ -13,10 +13,10 @@ type NamedAssertion = {
 	name: string;
 };
 type NamedAssertionResult = AssertionResult & {
-	name: string,
-	stack?: string,
-	message?: string,
-	long?: string,
+	name: string;
+	stack?: string;
+	message?: string;
+	long?: string;
 };
 
 const namedAssertions: NamedAssertion[] = [];
@@ -84,7 +84,7 @@ const logResult = (tests: NamedAssertionResult[], description: string) => {
 
 	let ok = true;
 	let metaData: NamedAssertionResult = null;
-	
+
 	for (let testIndex in tests) {
 		const test = tests[testIndex];
 
@@ -111,17 +111,17 @@ const logResult = (tests: NamedAssertionResult[], description: string) => {
 		console.log(`  ...`);
 		if (metaData.long) console.log(metaData.long);
 	}
-}
+};
 
 process.on('exit', () => {
 	console.log(`1...${count}`);
 	console.log();
-	console.log(`# ${exitStatus === 0 ? 'ok': 'not ok'}`);
+	console.log(`# ${exitStatus === 0 ? 'ok' : 'not ok'}`);
 	console.log(`# success: ${count - exitStatus}`);
 	console.log(`# failure: ${exitStatus}`);
 
 	process.exit(exitStatus);
-})
+});
 
 export const describe: Describe = (overview, cb) => {
 	start();
@@ -144,8 +144,8 @@ export const describe: Describe = (overview, cb) => {
 						result = callAssertion(indentifier, actual, ...expected);
 					} catch (e) {
 						result = {
-							ok: false
-						}
+							ok: false,
+						};
 						long = e;
 					}
 
