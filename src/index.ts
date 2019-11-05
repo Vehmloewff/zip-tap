@@ -1,5 +1,6 @@
 import giveString from './give-string';
 import stacktrace from 'stacktrace-js';
+import returnPromise from './return-promise';
 
 export type AssertionResult = {
 	ok: boolean;
@@ -75,8 +76,8 @@ export type Matchers = CoreMatchers & {
 	not: CoreMatchers;
 };
 export type Expect = (actual: any) => Matchers;
-export type It = (description: string, cb: (expect: Expect) => void) => void;
-export type Describe = (overview: string, cb: (it: It) => void) => void;
+export type It = (description: string, cb: (expect: Expect) => void) => Promise<void>;
+export type Describe = (overview: string, cb: (it: It) => void) => Promise<void>;
 
 let count = 0;
 let exitStatus = 0;
@@ -124,11 +125,10 @@ process.on('exit', () => {
 	process.exit(exitStatus);
 });
 
-export const describe: Describe = (overview, cb) => {
+export const describe: Describe = async (overview, cb) => {
 	start();
-	console.log(`# ${overview}`);
 
-	const it: It = (description, cb) => {
+	const it: It = async (description, cb) => {
 		const tests: NamedAssertionResult[] = [];
 
 		const expect: Expect = (actual: any) => {
@@ -173,10 +173,14 @@ export const describe: Describe = (overview, cb) => {
 			};
 		};
 
-		cb(expect);
+		await returnPromise(cb(expect));
 
 		logResult(tests, description);
 	};
 
-	cb(it);
+	console.log(`# ${overview}`);
+
+	await returnPromise(cb(it));
+
+	return;
 };
