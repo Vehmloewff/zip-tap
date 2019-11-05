@@ -7,6 +7,7 @@ import execute from 'rollup-plugin-execute';
 const name = 'todo';
 const sourcemap = true;
 const prod = process.env.NODE_ENV === 'production';
+const runningTests = process.env.NODE_ENV === 'test';
 
 const sharedOutputOptions = {
 	name,
@@ -23,7 +24,7 @@ export default {
 	plugins: [
 		resolve(),
 		commonjs(),
-		!prod && execute(`node ${pkg.main}`),
+		!prod && !runningTests && execute(`node ${pkg.main}`),
 		typescript({
 			typescript: require('typescript'),
 		}),

@@ -117,13 +117,15 @@ const logResult = (tests: NamedAssertionResult[], description: string) => {
 
 export const tests = (cb: Function) => {
 	returnPromise(cb()).then(() => {
+		const passed = exitStatus === 0;
+
 		console.log(`1...${count}`);
 		console.log();
-		console.log(`# ${exitStatus === 0 ? 'ok' : 'not ok'}`);
+		console.log(`# ${passed ? 'ok' : 'not ok'}`);
 		console.log(`# success: ${count - exitStatus}`);
 		console.log(`# failure: ${exitStatus}`);
 
-		process.exit(exitStatus === 0 ? 0 : 1);
+		process.exit(passed ? 0 : 1);
 	});
 };
 

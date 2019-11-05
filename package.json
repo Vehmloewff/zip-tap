@@ -8,6 +8,7 @@
 	"scripts": {
 		"build": "cross-env NODE_ENV=production rollup -c && tsc",
 		"test": "cross-env NODE_ENV=development rollup -c",
+		"test:bare": "cross-env NODE_ENV=test rollup -c && node dist/build.cjs.js",
 		"format": "prettier --write \"./**\"",
 		"lint": "eslint . && npm run format",
 		"lint:test": "eslint . && npm run format:test",
