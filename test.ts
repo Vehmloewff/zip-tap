@@ -47,7 +47,7 @@ tests(async () => {
 		await delay(4000);
 
 		it(`should pass`, expect => {
-			expect(5).custom(`isEven`);
+			expect(4).custom(`isEven`);
 		});
 	});
 });
