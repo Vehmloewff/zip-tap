@@ -1,7 +1,7 @@
 import giveString from './give-string';
 import stacktrace from 'stacktrace-js';
 import returnPromise from './return-promise';
-import isDeepEqual from 'plain-object-is-equal';
+import isDeepEqual from './obj-equal';
 
 export type AssertionResult = {
 	ok: boolean;
