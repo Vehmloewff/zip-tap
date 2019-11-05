@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"noImplicitAny": true,
+		"diagnostics": true,
+		"noImplicitThis": true,
+		"noEmitOnError": true,
+		"importHelpers": true,
+		"declaration": true,
+		"declarationDir": "types",
+		"emitDeclarationOnly": true,
+		"lib": ["es5", "es6", "dom"],
+		// "typeRoots": [ "./node_modules/@types", "./src/typings" ]
+	},
+	"target": "ESNext",
+	"module": "ES6",
+	"include": ["src", "untyped.d.ts"],
+	"exclude": ["node_modules"]
+}
