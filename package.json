@@ -4,7 +4,7 @@
 	"description": "TODO: Add description",
 	"main": "dist/build.cjs.js",
 	"module": "dist/build.esm.js",
-	"types": "index.d.ts",
+	"types": "types",
 	"scripts": {
 		"build": "cross-env NODE_ENV=production rollup -c && tsc",
 		"test": "cross-env NODE_ENV=development rollup -c",
