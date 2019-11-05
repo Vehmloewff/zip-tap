@@ -1,10 +1,10 @@
 {
-	"arrowParens": "always",
+	"arrowParens": "avoid",
 	"bracketSpacing": true,
 	"endOfLine": "lf",
 	"htmlWhitespaceSensitivity": "css",
 	"insertPragma": false,
-	"printWidth": 120,
+	"printWidth": 100,
 	"proseWrap": "preserve",
 	"requirePragma": false,
 	"semi": true,

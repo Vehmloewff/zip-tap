@@ -33,7 +33,7 @@ export const addAssertion = (assertion: Assertion, name: string) => {
 };
 
 const findAssertionIndex = (name: string) => {
-	const index = namedAssertions.findIndex((assertion) => assertion.name === name);
+	const index = namedAssertions.findIndex(assertion => assertion.name === name);
 
 	if (index === -1) throw assertionNotFoundError;
 
@@ -153,7 +153,13 @@ export const describe: Describe = async (overview, cb) => {
 					const caller = stacktrace.getSync()[1];
 					stack = `${caller.fileName}:${caller.lineNumber}:${caller.columnNumber}`;
 
-					const namedResult: NamedAssertionResult = { ...result, name: indentifier, stack, message, long };
+					const namedResult: NamedAssertionResult = {
+						...result,
+						name: indentifier,
+						stack,
+						message,
+						long,
+					};
 
 					if (not) {
 						namedResult.ok = !namedResult.ok;
@@ -164,10 +170,10 @@ export const describe: Describe = async (overview, cb) => {
 			};
 
 			return {
-				toBe: (value) => createCustom()(`toBe`, value),
+				toBe: value => createCustom()(`toBe`, value),
 				custom: createCustom(),
 				not: {
-					toBe: (value) => createCustom(true)(`toBe`, value),
+					toBe: value => createCustom(true)(`toBe`, value),
 					custom: createCustom(true),
 				},
 			};

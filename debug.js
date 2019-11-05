@@ -5,7 +5,7 @@ const name = `TODO-change-this`;
 /**
  * @param {String?} job The job that is logging
  */
-module.exports = (job) => {
+module.exports = job => {
 	const log = debug(`${name}:${job}`);
 
 	/**
