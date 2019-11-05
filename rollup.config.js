@@ -4,7 +4,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import pkg from './package.json';
 import execute from 'rollup-plugin-execute';
 
-const name = 'todo';
+const name = 'zip-tap';
 const sourcemap = true;
 const prod = process.env.NODE_ENV === 'production';
 const runningTests = process.env.NODE_ENV === 'test';

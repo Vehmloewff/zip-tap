@@ -1,7 +1,7 @@
 {
-	"name": "todo",
+	"name": "zip-tap",
 	"version": "1.0.0",
-	"description": "TODO: Add description",
+	"description": "A fast, promise-based TAP testing library",
 	"main": "dist/build.cjs.js",
 	"module": "dist/build.esm.js",
 	"types": "types",
@@ -38,9 +38,10 @@
 		"tslib": "^1.10.0",
 		"typescript": "^3.6.4"
 	},
+	"homepage": "https://github.com/Vehmloewff/zip-tap#readme",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Vehmloewff/todo"
+		"url": "https://github.com/Vehmloewff/zip-tap"
 	},
 	"dependencies": {
 		"stacktrace-js": "^2.0.1"
