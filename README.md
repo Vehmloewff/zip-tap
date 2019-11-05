@@ -1,34 +1,132 @@
-# nodejs-template
+# zip-tap
 
-## Startup
+A fast, promise-based TAP testing library
 
-```ssh
-npx degit Vehmloewff/nodejs-template nodejs-app
-cd nodejs-app
-npm i
-```
-
-## Running the tests
-
-To run jest:
+## Installation
 
 ```ssh
-npm test
-# or
-npm test:watch
+npm i -D zip-tap
 ```
 
-## Linting
+## Usage
 
-This template uses a combination of `prettier` and `eslint`.
+The syntax is easy, humman readable, and familiar.
 
-```ssh
-npm run lint
-# or
-npm run lint:test
+```js
+const { tests, describe } = require('zip-tap');
+
+tests(() => {
+	describe(`passing tests`, it => {
+		it(`should add`, expect => {
+			expect(1 + 1).toBe(2);
+		});
+
+		it(`should never be 1 or 0`, expect => {
+			expect(2 + 1).not.toBe(0);
+			expect(2 + 1).not.toBe(1);
+		});
+	});
+});
 ```
 
-If you need `eslint` or `prettier` to ignore a file, just add it to the `.eslintignore` or `.prettierignore`.
+To bring promises into the game, just add in `await` and `async`.
+
+```js
+const { tests, describe } = require('zip-tap');
+const delay = require('delay');
+
+tests(async () => {
+	await delay(100);
+
+	await describe(`first`, async it => {
+		await delay(300);
+
+		it(`should work with a promise`, async expect => {
+			await delay(400);
+
+			expect(1 + 1).toBe(2);
+		});
+
+		it(`should work without a promise`, expect => {
+			expect(2 + 1).not.toBe(0);
+		});
+	});
+
+	await delay(200);
+
+	describe(`second`, it => {
+		it(`should be third`, expect => {
+			expect(true).toBe(true);
+		});
+	});
+});
+```
+
+It is easy to add custom assertions:
+
+```js
+const { tests, describe, addAssertion } = require('zip-tap');
+
+addAssertion((actual, expected) => {
+	return {
+		ok: actual.length === expected,
+		actual: actual.length,
+		expected: expected,
+	};
+}, `isLength`);
+
+tests(() => {
+	describe(`custom assertion`, it => {
+		it(`should be the same length`, expect => {
+			expect('foo').custom(`isLength`, 3);
+		});
+	});
+});
+```
+
+Example output:
+
+```
+TAP version 13
+# tests
+ok 1 - should add the numbers
+ok 2 - should subtract the numbers
+# add() should work
+ok 3 - should add the numbers
+not ok 4 - should subtract the numbers and not be 0
+  ---
+  message: failed at '!toBe'
+  operator: !toBe
+  at: !toBe(/home/vehmloewff/Code/zip-tap/dist/build.cjs.js:3252:95)
+  expected: -1
+  actual: -1
+  ...
+ok 5 - should be even
+# try things async
+ok 6 - should still run async
+# try things even more async
+ok 7 - should pass
+1...7
+
+# not ok
+# success: 6
+# failure: 1
+```
+
+## Can I contribute?
+
+Sure!
+
+```sh
+# fork and clone repo
+cd zip-tap
+npm install
+npm test -- -w
+```
+
+Issues and PR's are welcome!
+
+_Just don't forget to `npm run lint`!_ :sweat_smile:
 
 ## License
 
