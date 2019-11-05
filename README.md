@@ -130,4 +130,4 @@ _Just don't forget to `npm run lint`!_ :sweat_smile:
 
 ## License
 
-[MIT]()
+[MIT](/LICENSE)
