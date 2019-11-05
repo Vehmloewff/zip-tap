@@ -38,7 +38,6 @@
 		"url": "https://github.com/Vehmloewff/todo"
 	},
 	"dependencies": {
-		"debug": "^4.1.1",
 		"stacktrace-js": "^2.0.1"
 	}
 }
