@@ -115,15 +115,17 @@ const logResult = (tests: NamedAssertionResult[], description: string) => {
 	}
 };
 
-process.on('exit', () => {
-	console.log(`1...${count}`);
-	console.log();
-	console.log(`# ${exitStatus === 0 ? 'ok' : 'not ok'}`);
-	console.log(`# success: ${count - exitStatus}`);
-	console.log(`# failure: ${exitStatus}`);
+export const tests = (cb: Function) => {
+	returnPromise(cb()).then(() => {
+		console.log(`1...${count}`);
+		console.log();
+		console.log(`# ${exitStatus === 0 ? 'ok' : 'not ok'}`);
+		console.log(`# success: ${count - exitStatus}`);
+		console.log(`# failure: ${exitStatus}`);
 
-	process.exit(exitStatus);
-});
+		process.exit(exitStatus === 0 ? 0 : 1);
+	});
+};
 
 export const describe: Describe = async (overview, cb) => {
 	start();

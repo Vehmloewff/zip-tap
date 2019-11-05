@@ -1,4 +1,4 @@
-import { describe, addAssertion } from './src';
+import { describe, addAssertion, tests } from './src';
 import delay from 'delay';
 
 addAssertion(actual => {
@@ -10,7 +10,7 @@ addAssertion(actual => {
 	};
 }, `isEven`);
 
-(async function() {
+tests(async () => {
 	await describe(`tests`, it => {
 		it(`should add the numbers`, expect => {
 			expect(1 + 2).toBe(3);
@@ -50,4 +50,4 @@ addAssertion(actual => {
 			expect(5).custom(`isEven`);
 		});
 	});
-})();
+});
