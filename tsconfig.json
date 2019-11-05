@@ -4,6 +4,7 @@
 		"diagnostics": true,
 		"noImplicitThis": true,
 		"noEmitOnError": true,
+		"esModuleInterop": true,
 		"importHelpers": true,
 		"declaration": true,
 		"declarationDir": "types",

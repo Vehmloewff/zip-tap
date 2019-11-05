@@ -1,4 +1,5 @@
 import giveString from './give-string';
+import stacktrace from 'stacktrace-js';
 
 export type AssertionResult = {
 	ok: boolean;
@@ -105,7 +106,7 @@ const logResult = (tests: NamedAssertionResult[], description: string) => {
 		if (metaData.message) console.log(`  message: ${metaData.message}`);
 		else console.log(`  message: failed at '${metaData.name}'`);
 		console.log(`  operator: ${metaData.name}`);
-		if (metaData.stack) console.log(` at: ${metaData.stack}`);
+		if (metaData.stack) console.log(`  at: ${metaData.name}(${metaData.stack})`);
 		if (metaData.expected) console.log(`  expected: ${giveString(metaData.expected)}`);
 		if (metaData.actual) console.log(`  actual: ${giveString(metaData.actual)}`);
 		console.log(`  ...`);
@@ -148,6 +149,9 @@ export const describe: Describe = (overview, cb) => {
 						};
 						long = e;
 					}
+
+					const caller = stacktrace.getSync()[1];
+					stack = `${caller.fileName}:${caller.lineNumber}:${caller.columnNumber}`;
 
 					const namedResult: NamedAssertionResult = { ...result, name: indentifier, stack, message, long };
 
