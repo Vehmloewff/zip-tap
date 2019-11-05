@@ -21,9 +21,9 @@ tests(() => {
 			expect(1 + 1).toBe(2);
 		});
 
-		it(`should never be 1 or 0`, expect => {
-			expect(2 + 1).not.toBe(0);
-			expect(2 + 1).not.toBe(1);
+		it(`should be the right type`, expect => {
+			expect(2 + 1).toBeType('number');
+			expect({}).not.toBeType('number');
 		});
 	});
 });
@@ -44,11 +44,14 @@ tests(async () => {
 		it(`should work with a promise`, async expect => {
 			await delay(400);
 
-			expect(1 + 1).toBe(2);
+			expect('Vehmloewff').toMatch(/loe/);
 		});
 
 		it(`should work without a promise`, expect => {
-			expect(2 + 1).not.toBe(0);
+			expect({ a: 'b', c: { d: ['e'], f: 'g' } }).toMatchObject({
+				a: 'b',
+				c: { d: ['e'], f: 'g' },
+			});
 		});
 	});
 
@@ -56,7 +59,9 @@ tests(async () => {
 
 	describe(`second`, it => {
 		it(`should be third`, expect => {
-			expect(true).toBe(true);
+			expect(() => {
+				throw new Error(`Hello!`);
+			}).toThrow(/hello/i);
 		});
 	});
 });

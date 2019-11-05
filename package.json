@@ -44,6 +44,7 @@
 		"url": "https://github.com/Vehmloewff/zip-tap"
 	},
 	"dependencies": {
+		"plain-object-is-equal": "^1.0.0",
 		"stacktrace-js": "^2.0.1"
 	}
 }

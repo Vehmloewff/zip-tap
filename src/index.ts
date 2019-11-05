@@ -1,6 +1,7 @@
 import giveString from './give-string';
 import stacktrace from 'stacktrace-js';
 import returnPromise from './return-promise';
+import isDeepEqual from 'plain-object-is-equal';
 
 export type AssertionResult = {
 	ok: boolean;
@@ -53,8 +54,62 @@ export const toBe: Assertion = (actual, expected) => {
 		expected,
 	};
 };
+export const toMatch: Assertion = (actual, expected: RegExp) => {
+	return {
+		ok: expected.test(actual),
+		actual,
+	};
+};
+export const toMatchObject: Assertion = (actual, expected: object) => {
+	return {
+		ok: isDeepEqual(actual, expected),
+		actual,
+		expected,
+	};
+};
+export const toThrow: Assertion = (fn, expectedError?: Error | String | RegExp) => {
+	try {
+		fn();
+		return { ok: false };
+	} catch (error) {
+		if (!expectedError) return { ok: true };
+		else if (expectedError instanceof Error) {
+			return {
+				ok: error.message === expectedError.message,
+				actual: error.message,
+				expected: expectedError.message,
+			};
+		} else if (typeof expectedError === 'string') {
+			return {
+				ok: error.message === expectedError,
+				actual: error.message,
+				expected: expectedError,
+			};
+		} else if (expectedError instanceof RegExp) {
+			return {
+				ok: expectedError.test(error.message),
+				actual: error.message,
+			};
+		} else {
+			throw new Error(
+				`The second argument 'toThrow' must be an Error constructor, regex, or string`
+			);
+		}
+	}
+};
+export const toBeType: Assertion = (value, type: string) => {
+	return {
+		ok: typeof value === type,
+		actual: typeof value,
+		expected: type,
+	};
+};
 
 addAssertion(toBe, `toBe`);
+addAssertion(toMatch, `toMatch`);
+addAssertion(toMatchObject, `toMatchObject`);
+addAssertion(toThrow, `toThrow`);
+addAssertion(toBeType, `toBeType`);
 
 let isRunning = false;
 function start() {
@@ -66,10 +121,10 @@ function start() {
 
 type CoreMatchers = {
 	toBe: (value: any) => void;
-	// toMatch: (regexp: RegExp) => void,
-	// toMatchObject: (object: object) => void,
-	// toThrow: (error?: string|RegExp) => void,
-	// toBeType: (type: string) => void,
+	toMatch: (regexp: RegExp) => void;
+	toMatchObject: (object: object) => void;
+	toThrow: (error?: string | RegExp) => void;
+	toBeType: (type: string) => void;
 	custom: (indentifier: string, ...args: any[]) => void;
 };
 export type Matchers = CoreMatchers & {
@@ -175,9 +230,17 @@ export const describe: Describe = async (overview, cb) => {
 
 			return {
 				toBe: value => createCustom()(`toBe`, value),
+				toMatch: regex => createCustom()(`toMatch`, regex),
+				toMatchObject: obj => createCustom()(`toMatchObject`, obj),
+				toThrow: error => createCustom()(`toThrow`, error),
+				toBeType: type => createCustom()(`toBeType`, type),
 				custom: createCustom(),
 				not: {
 					toBe: value => createCustom(true)(`toBe`, value),
+					toMatch: regex => createCustom(true)(`toMatch`, regex),
+					toMatchObject: obj => createCustom(true)(`toMatchObject`, obj),
+					toThrow: error => createCustom(true)(`toThrow`, error),
+					toBeType: type => createCustom(true)(`toBeType`, type),
 					custom: createCustom(true),
 				},
 			};

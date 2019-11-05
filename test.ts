@@ -50,4 +50,26 @@ tests(async () => {
 			expect(4).custom(`isEven`);
 		});
 	});
+
+	await describe(`test out the other methods`, it => {
+		it(`should match regex`, expect => {
+			expect('Elijah').toMatch(/Eli/);
+		});
+		it(`should match object`, expect => {
+			expect({ a: 'b', c: { d: ['e'], f: 'g' } }).toMatchObject({
+				a: 'b',
+				c: { d: ['e'], f: 'g' },
+			});
+		});
+		it(`should throw an error`, expect => {
+			expect(() => {
+				throw new Error(`hello!`);
+			}).toThrow(/hello/);
+		});
+		it(`should have the right types`, expect => {
+			expect('me').toBeType('string');
+			expect({}).toBeType('object');
+			expect(true).toBeType('boolean');
+		});
+	});
 });
