@@ -15,6 +15,10 @@
 		"prepublishOnly": "npm run test && npm run lint:test && npm run build",
 		"postversion": "git push && git push --tags && rm -rf build/temp && npm publish"
 	},
+	"files": [
+		"dist",
+		"types"
+	],
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
