@@ -279,4 +279,4 @@ function done() {
 // TODO: remove this in next major version
 export const tests = (cb: Function) => {
 	cb();
-}
+};

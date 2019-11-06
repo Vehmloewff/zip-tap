@@ -33,7 +33,7 @@ To bring promises into the game, just add in `await` and `async`.
 const { tests, describe } = require('zip-tap');
 const delay = require('delay');
 
-(async function(){
+(async function() {
 	await delay(100);
 
 	await describe(`first`, async it => {
@@ -62,7 +62,7 @@ const delay = require('delay');
 			}).toThrow(/hello/i);
 		});
 	});
-}());
+})();
 ```
 
 It is easy to add custom assertions:
