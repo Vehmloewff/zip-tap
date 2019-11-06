@@ -2,6 +2,7 @@ import giveString from './give-string';
 import stacktrace from 'stacktrace-js';
 import returnPromise from './return-promise';
 import isDeepEqual from './obj-equal';
+import { finished } from 'stream';
 
 export type AssertionResult = {
 	ok: boolean;
@@ -111,14 +112,6 @@ addAssertion(toMatchObject, `toMatchObject`);
 addAssertion(toThrow, `toThrow`);
 addAssertion(toBeType, `toBeType`);
 
-let isRunning = false;
-function start() {
-	if (!isRunning) {
-		console.log(`TAP version 13`);
-		isRunning = true;
-	}
-}
-
 type CoreMatchers = {
 	toBe: (value: any) => void;
 	toMatch: (regexp: RegExp) => void;
@@ -170,90 +163,120 @@ const logResult = (tests: NamedAssertionResult[], description: string) => {
 	}
 };
 
-export const tests = (cb: Function) => {
-	returnPromise(cb()).then(() => {
-		const passed = exitStatus === 0;
+const it: It = async (description, cb) => {
+	const tests: NamedAssertionResult[] = [];
 
-		console.log(`1...${count}`);
-		console.log();
-		console.log(`# ${passed ? 'ok' : 'not ok'}`);
-		console.log(`# success: ${count - exitStatus}`);
-		console.log(`# failure: ${exitStatus}`);
+	const expect: Expect = (actual: any) => {
+		type CustomAssertion = (indentifier: string, ...expected: any[]) => void;
 
-		process.exit(passed ? 0 : 1);
-	});
-};
+		const createCustom = (not?: boolean): CustomAssertion => {
+			return (indentifier: string, ...expected) => {
+				let result: AssertionResult;
+				let stack: string;
+				let message: string;
+				let long: string;
 
-export const describe: Describe = async (overview, cb) => {
-	start();
-
-	const it: It = async (description, cb) => {
-		const tests: NamedAssertionResult[] = [];
-
-		const expect: Expect = (actual: any) => {
-			type CustomAssertion = (indentifier: string, ...expected: any[]) => void;
-
-			const createCustom = (not?: boolean): CustomAssertion => {
-				return (indentifier: string, ...expected) => {
-					let result: AssertionResult;
-					let stack: string;
-					let message: string;
-					let long: string;
-
-					try {
-						result = callAssertion(indentifier, actual, ...expected);
-					} catch (e) {
-						result = {
-							ok: false,
-						};
-						long = e;
-					}
-
-					const caller = stacktrace.getSync()[1];
-					stack = `${caller.fileName}:${caller.lineNumber}:${caller.columnNumber}`;
-
-					const namedResult: NamedAssertionResult = {
-						...result,
-						name: indentifier,
-						stack,
-						message,
-						long,
+				try {
+					result = callAssertion(indentifier, actual, ...expected);
+				} catch (e) {
+					result = {
+						ok: false,
 					};
+					long = e;
+				}
 
-					if (not) {
-						namedResult.ok = !namedResult.ok;
-						namedResult.name = `!${namedResult.name}`;
-					}
-					tests.push(namedResult);
+				const caller = stacktrace.getSync()[1];
+				stack = `${caller.fileName}:${caller.lineNumber}:${caller.columnNumber}`;
+
+				const namedResult: NamedAssertionResult = {
+					...result,
+					name: indentifier,
+					stack,
+					message,
+					long,
 				};
-			};
 
-			return {
-				toBe: value => createCustom()(`toBe`, value),
-				toMatch: regex => createCustom()(`toMatch`, regex),
-				toMatchObject: obj => createCustom()(`toMatchObject`, obj),
-				toThrow: error => createCustom()(`toThrow`, error),
-				toBeType: type => createCustom()(`toBeType`, type),
-				custom: createCustom(),
-				not: {
-					toBe: value => createCustom(true)(`toBe`, value),
-					toMatch: regex => createCustom(true)(`toMatch`, regex),
-					toMatchObject: obj => createCustom(true)(`toMatchObject`, obj),
-					toThrow: error => createCustom(true)(`toThrow`, error),
-					toBeType: type => createCustom(true)(`toBeType`, type),
-					custom: createCustom(true),
-				},
+				if (not) {
+					namedResult.ok = !namedResult.ok;
+					namedResult.name = `!${namedResult.name}`;
+				}
+				tests.push(namedResult);
 			};
 		};
 
-		await returnPromise(cb(expect));
-
-		logResult(tests, description);
+		return {
+			toBe: value => createCustom()(`toBe`, value),
+			toMatch: regex => createCustom()(`toMatch`, regex),
+			toMatchObject: obj => createCustom()(`toMatchObject`, obj),
+			toThrow: error => createCustom()(`toThrow`, error),
+			toBeType: type => createCustom()(`toBeType`, type),
+			custom: createCustom(),
+			not: {
+				toBe: value => createCustom(true)(`toBe`, value),
+				toMatch: regex => createCustom(true)(`toMatch`, regex),
+				toMatchObject: obj => createCustom(true)(`toMatchObject`, obj),
+				toThrow: error => createCustom(true)(`toThrow`, error),
+				toBeType: type => createCustom(true)(`toBeType`, type),
+				custom: createCustom(true),
+			},
+		};
 	};
 
-	console.log(`# ${overview}`);
+	cb(expect);
 
-	await returnPromise(cb(it));
+	logResult(tests, description);
+};
 
-	return;
+type startOptions = {
+	overview: string;
+	cb: Function;
+};
+
+let testsToRun: startOptions[] = [];
+let isRunning = false;
+function start(opts: startOptions) {
+	testsToRun.push(opts);
+
+	if (!isRunning) {
+		console.log(`TAP version 13`);
+		isRunning = true;
+
+		runTests();
+	}
+}
+
+export const describe: Describe = async (overview, cb) => {
+	start({
+		overview,
+		cb,
+	});
+};
+
+async function runTests() {
+	const test = testsToRun[0];
+	if (!test) return done();
+
+	console.log(`# ${test.overview}`);
+	await returnPromise(test.cb(it));
+
+	testsToRun.shift();
+
+	runTests();
+}
+
+function done() {
+	const passed = exitStatus === 0;
+
+	console.log(`1...${count}`);
+	console.log();
+	console.log(`# ${passed ? 'ok' : 'not ok'}`);
+	console.log(`# success: ${count - exitStatus}`);
+	console.log(`# failure: ${exitStatus}`);
+
+	if (!passed) process.exit(passed ? 0 : 1);
+}
+
+// TODO: remove this in next major version
+export const tests = (cb: Function) => {
+	cb();
 };

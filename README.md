@@ -15,16 +15,14 @@ The syntax is easy, humman readable, and familiar.
 ```js
 const { tests, describe } = require('zip-tap');
 
-tests(() => {
-	describe(`passing tests`, it => {
-		it(`should add`, expect => {
-			expect(1 + 1).toBe(2);
-		});
+describe(`passing tests`, it => {
+	it(`should add`, expect => {
+		expect(1 + 1).toBe(2);
+	});
 
-		it(`should be the right type`, expect => {
-			expect(2 + 1).toBeType('number');
-			expect({}).not.toBeType('number');
-		});
+	it(`should be the right type`, expect => {
+		expect(2 + 1).toBeType('number');
+		expect({}).not.toBeType('number');
 	});
 });
 ```
@@ -35,7 +33,7 @@ To bring promises into the game, just add in `await` and `async`.
 const { tests, describe } = require('zip-tap');
 const delay = require('delay');
 
-tests(async () => {
+(async function() {
 	await delay(100);
 
 	await describe(`first`, async it => {
@@ -64,7 +62,7 @@ tests(async () => {
 			}).toThrow(/hello/i);
 		});
 	});
-});
+})();
 ```
 
 It is easy to add custom assertions:
@@ -80,11 +78,9 @@ addAssertion((actual, expected) => {
 	};
 }, `isLength`);
 
-tests(() => {
-	describe(`custom assertion`, it => {
-		it(`should be the same length`, expect => {
-			expect('foo').custom(`isLength`, 3);
-		});
+describe(`custom assertion`, it => {
+	it(`should be the same length`, expect => {
+		expect('foo').custom(`isLength`, 3);
 	});
 });
 ```
