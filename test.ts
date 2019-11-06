@@ -1,4 +1,4 @@
-import { describe, addAssertion, tests } from './src';
+import { describe, addAssertion } from './src';
 import delay from 'delay';
 
 addAssertion(actual => {
@@ -10,8 +10,8 @@ addAssertion(actual => {
 	};
 }, `isEven`);
 
-tests(async () => {
-	await describe(`tests`, it => {
+(async function() {
+	describe(`tests`, it => {
 		it(`should add the numbers`, expect => {
 			expect(1 + 2).toBe(3);
 		});
@@ -21,7 +21,7 @@ tests(async () => {
 		});
 	});
 
-	await describe(`add() should work`, it => {
+	describe(`add() should work`, it => {
 		it(`should add the numbers`, expect => {
 			expect(1 + 2).toBe(3);
 		});
@@ -37,21 +37,25 @@ tests(async () => {
 
 	await describe(`try things async`, async it => {
 		await it(`should still run async`, async expect => {
-			await delay(3000);
+			await delay(300);
 
+			expect(2).not.toBe(0);
+		});
+
+		it(`should still run async`, expect => {
 			expect(2).not.toBe(0);
 		});
 	});
 
 	await describe(`try things even more async`, async it => {
-		await delay(4000);
+		await delay(400);
 
 		it(`should pass`, expect => {
 			expect(4).custom(`isEven`);
 		});
 	});
 
-	await describe(`test out the other methods`, it => {
+	describe(`test out the other methods`, it => {
 		it(`should match regex`, expect => {
 			expect('Elijah').toMatch(/Eli/);
 		});
@@ -72,4 +76,4 @@ tests(async () => {
 			expect(true).toBeType('boolean');
 		});
 	});
-});
+})();
