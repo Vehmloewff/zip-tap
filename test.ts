@@ -1,4 +1,4 @@
-import { describe, addAssertion } from './src';
+import { tests, describe, addAssertion } from './src/index';
 import delay from 'delay';
 
 addAssertion(actual => {
@@ -10,7 +10,7 @@ addAssertion(actual => {
 	};
 }, `isEven`);
 
-(async function() {
+tests(async () => {
 	describe(`tests`, it => {
 		it(`should add the numbers`, expect => {
 			expect(1 + 2).toBe(3);
@@ -37,15 +37,17 @@ addAssertion(actual => {
 
 	await describe(`try things async`, async it => {
 		await it(`should still run async`, async expect => {
-			await delay(300);
+			await delay(500);
 
 			expect(2).not.toBe(0);
 		});
 
-		it(`should still run async`, expect => {
+		it(`should still run async 2`, expect => {
 			expect(2).not.toBe(0);
 		});
 	});
+
+	await delay(400);
 
 	await describe(`try things even more async`, async it => {
 		await delay(400);
@@ -64,6 +66,10 @@ addAssertion(actual => {
 				a: 'b',
 				c: { d: ['e'], f: 'g' },
 			});
+			expect({ a: 'b', c: { d: ['e'], f: 'g' } }).not.toMatchObject({
+				a: 'b',
+				c: { d: ['e'], f: 'd' },
+			});
 		});
 		it(`should throw an error`, expect => {
 			expect(() => {
@@ -76,4 +82,4 @@ addAssertion(actual => {
 			expect(true).toBeType('boolean');
 		});
 	});
-})();
+});
