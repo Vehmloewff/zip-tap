@@ -29,11 +29,13 @@ describe(`passing tests`, it => {
 
 To bring promises into the game, just add in `await` and `async`.
 
+If there are delays between `describe` functions, just wrap everyting in a `tests` function.
+
 ```js
 const { tests, describe } = require('zip-tap');
 const delay = require('delay');
 
-(async function() {
+tests(async () => {
 	await delay(100);
 
 	await describe(`first`, async it => {
@@ -62,7 +64,7 @@ const delay = require('delay');
 			}).toThrow(/hello/i);
 		});
 	});
-})();
+});
 ```
 
 It is easy to add custom assertions:
