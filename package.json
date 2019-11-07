@@ -1,6 +1,6 @@
 {
 	"name": "zip-tap",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "A fast, promise-based TAP testing library",
 	"main": "dist/build.cjs.js",
 	"module": "dist/build.esm.js",
