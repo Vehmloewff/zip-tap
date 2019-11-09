@@ -2,6 +2,8 @@
 
 A fast, promise-based TAP testing library
 
+_PS:  See [`zip-tap-reporter`](https://github.com/Vehmloewff/zip-tap-reporter) for a TAP reporter geared towards this module._
+
 ## Installation
 
 ```ssh
