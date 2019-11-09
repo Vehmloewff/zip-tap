@@ -1,51 +1,26 @@
-const getKeys = Object.keys;
-const hasOwnProperty = Object.prototype.hasOwnProperty;
-const isArray = Array.isArray;
+import flatten from 'flat';
 
 const isEqual = (x: any, y: any): boolean => {
-	if (x === y) return true;
+	const flatX = <any>flatten(x);
+	const flatY = <any>flatten(y);
 
-	if (typeof x === 'object' && typeof y === 'object' && x !== null && y !== null) {
-		if (isArray(x)) {
-			if (isArray(y)) {
-				let xLength = x.length,
-					yLength = y.length;
+	let matches = true;
 
-				if (xLength !== yLength) return false;
+	Object.keys(flatX).forEach(key => {
+		const value1 = flatX[key];
+		const value2 = flatY[key];
 
-				while (xLength--) {
-					if (!(x[xLength], y[xLength])) return false;
-				}
+		if (value1 !== value2) matches = false;
+	});
 
-				return true;
-			}
+	Object.keys(flatY).forEach(key => {
+		const value1 = flatX[key];
+		const value2 = flatY[key];
 
-			return false;
-		} else if (isArray(y)) {
-			return false;
-		} else {
-			let xKeys = getKeys(x),
-				xLength = xKeys.length,
-				yKeys = getKeys(y),
-				yLength = yKeys.length;
+		if (value1 !== value2) matches = false;
+	});
 
-			if (xLength !== yLength) return false;
-
-			while (xLength--) {
-				const key = xKeys[xLength],
-					xValue = x[key],
-					yValue = y[key];
-
-				if (!isEqual(xValue, yValue)) return false;
-
-				if (yValue === undefined && !hasOwnProperty.call(y, key)) return false;
-			}
-		}
-
-		return true;
-	}
-
-	return x !== x && y !== y;
+	return matches;
 };
 
 export default isEqual;

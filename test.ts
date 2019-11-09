@@ -70,6 +70,7 @@ tests(async () => {
 				a: 'b',
 				c: { d: ['e'], f: 'd' },
 			});
+			expect([`this`, `that`, `then`]).toMatchObject([`this`, `that`, `then`]);
 		});
 		it(`should throw an error`, expect => {
 			expect(() => {
