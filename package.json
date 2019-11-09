@@ -32,7 +32,8 @@
 		"rollup-plugin-node-resolve": "^5.2.0",
 		"rollup-plugin-typescript": "^1.0.1",
 		"tslib": "^1.10.0",
-		"typescript": "^3.6.4"
+		"typescript": "^3.6.4",
+		"@types/flat": "0.0.28"
 	},
 	"homepage": "https://github.com/Vehmloewff/zip-tap#readme",
 	"repository": {
@@ -40,9 +41,7 @@
 		"url": "https://github.com/Vehmloewff/zip-tap"
 	},
 	"dependencies": {
-		"@types/flat": "0.0.28",
 		"flat": "^5.0.0",
-		"plain-object-is-equal": "^1.0.0",
 		"stacktrace-js": "^2.0.1"
 	}
 }
