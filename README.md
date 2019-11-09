@@ -1,8 +1,8 @@
+_Psst — Want a reporter for this module?  Go here -> [Vehmloewff/zip-tap-reporter](https://github.com/Vehmloewff/zip-tap-reporter)_
+
 # zip-tap
 
 A fast, promise-based TAP testing library
-
-_PS:  See [`zip-tap-reporter`](https://github.com/Vehmloewff/zip-tap-reporter) for a TAP reporter geared towards this module._
 
 ## Installation
 
