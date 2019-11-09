@@ -1,4 +1,4 @@
-_Psst — Want a reporter for this module?  Go here -> [Vehmloewff/zip-tap-reporter](https://github.com/Vehmloewff/zip-tap-reporter)_
+_Psst — Want a reporter for this module? Go here -> [Vehmloewff/zip-tap-reporter](https://github.com/Vehmloewff/zip-tap-reporter)_
 
 # zip-tap
 
