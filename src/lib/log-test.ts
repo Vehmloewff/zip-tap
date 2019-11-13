@@ -30,8 +30,10 @@ export default (
 		else console.log(`  message: failed at '${failingTest.name}'`);
 		console.log(`  operator: ${failingTest.name}`);
 		if (failingTest.location) console.log(`  at: ${failingTest.name}(${failingTest.location})`);
-		if (failingTest.expected) console.log(`  expected: ${giveString(failingTest.expected)}`);
-		if (failingTest.actual) console.log(`  actual: ${giveString(failingTest.actual)}`);
+		if (failingTest.hasOwnProperty(`expected`))
+			console.log(`  expected: ${giveString(failingTest.expected)}`);
+		if (failingTest.hasOwnProperty(`actual`))
+			console.log(`  actual: ${giveString(failingTest.actual)}`);
 		console.log(`  ...`);
 
 		fails++;
