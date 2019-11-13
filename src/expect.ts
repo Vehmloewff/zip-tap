@@ -47,7 +47,7 @@ const createAssertionCaller = (addTestMethod: AddTestMethod, actual: any) => (
 		newResult.ok = !newResult.ok;
 		newResult.name = `!` + newResult.name;
 
-		if (newResult.expected) newResult.expected = `!` + newResult.expected;
+		if (newResult.hasOwnProperty('expected')) newResult.expected = `!` + newResult.expected;
 	}
 
 	addTestMethod(newResult);

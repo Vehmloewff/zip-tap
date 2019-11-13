@@ -1,4 +1,4 @@
-import { tests, describe, addAssertion } from './src/index';
+import { tests, describe, addAssertion, it } from './src/index';
 import delay from 'delay';
 
 addAssertion(actual => {
@@ -82,5 +82,9 @@ tests(async () => {
 			expect({}).toBeType('object');
 			expect(true).toBeType('boolean');
 		});
+	});
+	it(`should server it's purpose`, expect => {
+		expect(undefined).toBe(undefined);
+		expect(undefined).toBe(undefined);
 	});
 });
