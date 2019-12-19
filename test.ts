@@ -84,7 +84,7 @@ tests(async () => {
 		});
 	});
 	it(`should server it's purpose`, expect => {
-		expect(undefined).toBe(1);
+		expect(undefined).toBe(undefined);
 		expect(undefined).toBe(undefined);
 	});
 });
