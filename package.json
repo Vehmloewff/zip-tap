@@ -22,18 +22,18 @@
 	"author": "",
 	"license": "MIT",
 	"devDependencies": {
+		"@types/flat": "0.0.28",
 		"acorn": "^7.1.0",
 		"cross-env": "^6.0.3",
 		"delay": "^4.3.0",
-		"prettier": "^1.18.2",
-		"rollup": "^1.26.3",
+		"prettier": "^1.19.1",
+		"rollup": "^1.27.13",
+		"rollup-plugin-command": "^1.0.7",
 		"rollup-plugin-commonjs": "^10.1.0",
-		"rollup-plugin-execute": "^1.1.1",
 		"rollup-plugin-node-resolve": "^5.2.0",
 		"rollup-plugin-typescript": "^1.0.1",
 		"tslib": "^1.10.0",
-		"typescript": "^3.6.4",
-		"@types/flat": "0.0.28"
+		"typescript": "^3.7.3"
 	},
 	"homepage": "https://github.com/Vehmloewff/zip-tap#readme",
 	"repository": {
