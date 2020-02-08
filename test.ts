@@ -33,6 +33,10 @@ tests(async () => {
 		it(`should be even`, expect => {
 			expect(4).custom(`isEven`);
 		});
+
+		it(`should parse multiline into yml`, expect => {
+			expect(`thing\nother\nthree`).toBe(`thing\nother\nthree`);
+		});
 	});
 
 	await describe(`try things async`, async it => {
