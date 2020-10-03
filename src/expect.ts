@@ -13,6 +13,7 @@ export const createExpect = (addTestMethod: AddTestMethod): Expect => actual => 
 
 	return {
 		toBe: value => createCustomCaller()(`toBe`, value),
+		toBeTruthy: value => createCustomCaller()(`toBeTruthy`),
 		toMatch: regex => createCustomCaller()(`toMatch`, regex),
 		toMatchObject: obj => createCustomCaller()(`toMatchObject`, obj),
 		toThrow: error => createCustomCaller()(`toThrow`, error),
@@ -20,6 +21,7 @@ export const createExpect = (addTestMethod: AddTestMethod): Expect => actual => 
 		custom: createCustomCaller(),
 		not: {
 			toBe: value => createCustomCaller(true)(`toBe`, value),
+			toBeTruthy: value => createCustomCaller(true)(`toBeTruthy`),
 			toMatch: regex => createCustomCaller(true)(`toMatch`, regex),
 			toMatchObject: obj => createCustomCaller(true)(`toMatchObject`, obj),
 			toThrow: error => createCustomCaller(true)(`toThrow`, error),

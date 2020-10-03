@@ -39,6 +39,16 @@ tests(async () => {
 		});
 	});
 
+	describe(`toBeTruthy`, it => {
+		it(`should have a toBeTruthy method`, expect => {
+			expect(3).toBeTruthy();
+		});
+
+		it(`should have a not.toBeTruthy method`, expect => {
+			expect(0).not.toBeTruthy();
+		});
+	});
+
 	await describe(`try things async`, async it => {
 		await it(`should still run async`, async expect => {
 			await delay(500);
