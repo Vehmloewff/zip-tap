@@ -9,6 +9,13 @@ export const toBe: Assertion = (actual, expected) => {
 		message: `The expected value did not match the actual`,
 	};
 };
+export const toBeTruthy: Assertion = actual => {
+	return {
+		ok: !!actual,
+		actual,
+		message: `The expected value was not truthy`,
+	};
+};
 export const toMatch: Assertion = (actual, expected: RegExp) => {
 	return {
 		ok: expected.test(actual),
@@ -71,6 +78,7 @@ export const toBeType: Assertion = (value, type: string) => {
 };
 
 addAssertion(toBe, `toBe`);
+addAssertion(toBeTruthy, `toBeTruthy`);
 addAssertion(toMatch, `toMatch`);
 addAssertion(toMatchObject, `toMatchObject`);
 addAssertion(toThrow, `toThrow`);
