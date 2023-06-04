@@ -1,3 +1,5 @@
+> NOTE: I have switch to using Deno primarily, which has a sound, builtin test runner. Therefore, I have no interest in maintaining this project anymore. If you would like to maintain it, contact me (vehmloewff@gmail.com) and can transfer ownership.
+
 _Psst — Want a reporter for this module? Go here -> [Vehmloewff/zip-tap-reporter](https://github.com/Vehmloewff/zip-tap-reporter)_
 
 # zip-tap
